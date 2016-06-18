@@ -42,9 +42,9 @@ install:
   - set PATH=%MINICONDA%;%MINICONDA%/Scripts;%PATH%
   - set PYTHON_INCLUDE_DIR=%MINICONDA%/include
   - if [%PYTHON_VERSION%]==[2.7] (
-      set PYTHON_LIBRARY=%MINICONDA%/libs/python27.lib )
+      set PYTHON_LIBRARY=%MINICONDA%/libs/python27.lib)
   - if [%PYTHON_VERSION%]==[3.4] (
-      set PYTHON_LIBRARY=%MINICONDA%/libs/python34.lib )      
+      set PYTHON_LIBRARY=%MINICONDA%/libs/python34.lib)      
 
   # Install the build and runtime dependencies of the project.
   - "conda config --set always_yes yes --set changeps1 no"

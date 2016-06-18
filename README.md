@@ -1,6 +1,9 @@
 TinySpline
 ========
 
+[![Build status](https://ci.appveyor.com/api/projects/status/cv20b9mtxlgqb0qo?svg=true)](https://ci.appveyor.com/project/giumas/tinyspline)
+[![Build Status](https://travis-ci.org/giumas/_tinyspline.svg?branch=add_CI)](https://travis-ci.org/giumas/_tinyspline)
+
 TinySpline is library for NURBS, B-Splines, and Bézier curves giving you access to several
 operations on splines. The library has been implemented in C (C89) and provides a wrapper
 for C++ (C++11) along with bindings for C#, Java, Python, and Ruby. The focus of
