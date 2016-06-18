@@ -203,7 +203,7 @@ if(TS_CPP_AVAILABLE AND SWIG_FOUND AND TARGET_SUPPORTS_SHARED_LIBS)
     # append 'cs' to assembly name to ensure it doesn't clash
     # with the c library.
     add_custom_command(TARGET tinysplinecsharp POST_BUILD
-      COMMAND ${CSHARP_COMPILER} /t:library /sdk:2 /recurse:"${TS_GENERATED_CSHARP_DIR}/*.cs" /out:tinysplinecs.dll
+      COMMAND ${CSHARP_COMPILER} /t:library /recurse:"${TS_GENERATED_CSHARP_DIR}/*.cs" /out:tinysplinecs.dll
     )
   endif()
   set_target_properties(tinysplinecsharp PROPERTIES FOLDER "bindings")

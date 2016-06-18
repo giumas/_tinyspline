@@ -1,4 +1,8 @@
-cmake_minimum_required(VERSION 3.4)
+if(MSVC)
+  cmake_minimum_required(VERSION 3.4)
+else()
+  cmake_minimum_required(VERSION 3.0)
+endif()
 project(tinyspline)
 
 # Turn on folders

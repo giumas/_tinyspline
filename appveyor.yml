@@ -1,0 +1,71 @@
+# branches to build
+branches:
+  # whitelist
+  only:
+  - add_CI
+  - master
+
+# clone directory
+clone_folder: c:\projects\tinyspline
+
+platform: x64
+configuration: Release
+  
+
+environment:
+  matrix:
+    - TEST_SETUP_PY: 0
+      PYTHON_VERSION: 3.4
+      PYTHON_ARCH: x64
+      VSVER: Visual Studio 14 Win64
+      MINICONDA: C:\Miniconda3-x64
+    - TEST_SETUP_PY: 1
+      PYTHON_VERSION: 3.4
+      PYTHON_ARCH: x64
+      MINICONDA: C:\Miniconda3-x64      
+    - TEST_SETUP_PY: 1
+      PYTHON_VERSION: 2.7
+      PYTHON_ARCH: x64
+      MINICONDA: C:\Miniconda
+      
+
+matrix:
+  allow_failures:
+    - TEST_SETUP_PY: 1
+      PYTHON_VERSION: 2.7
+      PYTHON_ARCH: x64
+      MINICONDA: C:\Miniconda
+
+      
+install:
+  - cinst swig
+  - set PATH=%MINICONDA%;%MINICONDA%\Scripts;%PATH%
+  - set PYTHON_INCLUDE_DIR=%MINICONDA%\include
+  - if [%PYTHON_VERSION%]==[2.7] (
+      set PYTHON_LIBRARY=%MINICONDA%\libs\python27.lib )
+  - if [%PYTHON_VERSION%]==[3.4] (
+      set PYTHON_LIBRARY=%MINICONDA%\libs\python34.lib )      
+
+  # Install the build and runtime dependencies of the project.
+  - "conda config --set always_yes yes --set changeps1 no"
+  - "conda update -q conda"
+  - "conda info -a"
+  - "conda create -q -n test-environment python=%PYTHON_VERSION%"
+  - "conda config --add channels hydroffice"
+  - "conda config --add channels SciTools"
+  - "conda config --add channels IOOS"
+  - "activate test-environment"
+
+  # Check that we have the expected version of Python
+  - "python --version"      
+
+  
+build_script:
+  - cd c:\projects\tinyspline
+  - if [%TEST_SETUP_PY%]==[1] (
+      python --version &&
+      python setup.py install )
+  - if [%TEST_SETUP_PY%]==[0] (
+      cmake -G"%VSVER%" &&
+      cmake --build . --config Release --target ALL_BUILD )
+ 
