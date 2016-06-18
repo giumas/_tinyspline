@@ -137,22 +137,26 @@ if(TS_CPP_AVAILABLE AND SWIG_FOUND AND TARGET_SUPPORTS_SHARED_LIBS)
   if (PYTHONLIBS_FOUND)
     include_directories(${PYTHON_INCLUDE_DIRS})
     set_source_files_properties(tinysplinepython.i PROPERTIES CPLUSPLUS ON)
+    set_source_files_properties(tinysplinepython.i PROPERTIES SWIG_MODULE_NAME tinyspline)
     if (${PYTHONLIBS_VERSION_STRING} MATCHES "^3.")
       message(STATUS "Using Python 3 mode.")
-      set(CMAKE_SWIG_FLAGS -py3 -O)
+      set(CMAKE_SWIG_FLAGS -py3 -O -module tinyspline)
     else()
       message(STATUS "Using Python 2 mode.")
-      set(CMAKE_SWIG_FLAGS -O)
+      set(CMAKE_SWIG_FLAGS -O -module tinyspline)
     endif()
     set(CMAKE_SWIG_OUTDIR ${TS_GENERATED_PYTHON_DIR})
-    swig_add_module(tinysplinepython python tinysplinepython.i tinyspline.c tinysplinecpp.cpp)
-    swig_link_libraries(tinysplinepython ${PYTHON_LIBRARIES})
-    # for some reason the generated make target for python is _tinysplinepython
-    add_custom_command(TARGET _tinysplinepython POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E copy ${TS_GENERATED_PYTHON_DIR}/tinysplinepython.py
+    swig_add_module(tinyspline python tinysplinepython.i tinyspline.c tinysplinecpp.cpp)      
+    swig_link_libraries(tinyspline ${PYTHON_LIBRARIES})
+    if(MSVC)
+      add_custom_command(TARGET _tinyspline POST_BUILD 
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:_tinyspline> ${CMAKE_CURRENT_BINARY_DIR})    
+    endif()
+    add_custom_command(TARGET _tinyspline POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy ${TS_GENERATED_PYTHON_DIR}/tinyspline.py
       ${CMAKE_CURRENT_BINARY_DIR}/tinyspline.py
     )
-    set_target_properties(_tinysplinepython PROPERTIES FOLDER "bindings")
+    set_target_properties(_tinyspline PROPERTIES FOLDER "bindings")
   endif()
 
   # java
@@ -203,7 +207,7 @@ if(TS_CPP_AVAILABLE AND SWIG_FOUND AND TARGET_SUPPORTS_SHARED_LIBS)
     # append 'cs' to assembly name to ensure it doesn't clash
     # with the c library.
     add_custom_command(TARGET tinysplinecsharp POST_BUILD
-      COMMAND ${CSHARP_COMPILER} /t:library /sdk:2 /recurse:"${TS_GENERATED_CSHARP_DIR}/*.cs" /out:tinysplinecs.dll
+      COMMAND ${CSHARP_COMPILER} /t:library /recurse:"${TS_GENERATED_CSHARP_DIR}/*.cs" /out:tinysplinecs.dll
     )
   endif()
   set_target_properties(tinysplinecsharp PROPERTIES FOLDER "bindings")
