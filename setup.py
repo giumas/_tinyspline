@@ -8,7 +8,7 @@ import subprocess
 
 cmake_bin = "cmake"
 cmake_build_config = "Release"
-cmake_build_target = "_tinysplinepython"
+cmake_build_target = "_tinyspline"
 
 
 class build_py(_build_py):

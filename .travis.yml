@@ -57,8 +57,8 @@ script:
   - python --version
   - python setup.py install
     
-addons:
-  artifacts:
-    debug: true
-    paths:
-    - ./dist
+# addons:
+  # artifacts:
+    # debug: true
+    # paths:
+    # - ./dist

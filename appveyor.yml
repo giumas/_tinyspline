@@ -6,7 +6,7 @@ branches:
   - master
 
 # clone directory
-clone_folder: c:\projects\tinyspline
+clone_folder: c:/projects/tinyspline
 
 platform: x64
 configuration: Release
@@ -18,15 +18,15 @@ environment:
       PYTHON_VERSION: 3.4
       PYTHON_ARCH: x64
       VSVER: Visual Studio 14 Win64
-      MINICONDA: C:\Miniconda3-x64
+      MINICONDA: C:/Miniconda3-x64
     - TEST_SETUP_PY: 1
       PYTHON_VERSION: 3.4
       PYTHON_ARCH: x64
-      MINICONDA: C:\Miniconda3-x64      
+      MINICONDA: C:/Miniconda3-x64      
     - TEST_SETUP_PY: 1
       PYTHON_VERSION: 2.7
       PYTHON_ARCH: x64
-      MINICONDA: C:\Miniconda
+      MINICONDA: C:/Miniconda
       
 
 matrix:
@@ -34,17 +34,17 @@ matrix:
     - TEST_SETUP_PY: 1
       PYTHON_VERSION: 2.7
       PYTHON_ARCH: x64
-      MINICONDA: C:\Miniconda
+      MINICONDA: C:/Miniconda
 
       
 install:
-  - cinst swig
-  - set PATH=%MINICONDA%;%MINICONDA%\Scripts;%PATH%
-  - set PYTHON_INCLUDE_DIR=%MINICONDA%\include
+  - cinst -r swig
+  - set PATH=%MINICONDA%;%MINICONDA%/Scripts;%PATH%
+  - set PYTHON_INCLUDE_DIR=%MINICONDA%/include
   - if [%PYTHON_VERSION%]==[2.7] (
-      set PYTHON_LIBRARY=%MINICONDA%\libs\python27.lib )
+      set PYTHON_LIBRARY=%MINICONDA%/libs/python27.lib )
   - if [%PYTHON_VERSION%]==[3.4] (
-      set PYTHON_LIBRARY=%MINICONDA%\libs\python34.lib )      
+      set PYTHON_LIBRARY=%MINICONDA%/libs/python34.lib )      
 
   # Install the build and runtime dependencies of the project.
   - "conda config --set always_yes yes --set changeps1 no"
@@ -61,7 +61,7 @@ install:
 
   
 build_script:
-  - cd c:\projects\tinyspline
+  - cd c:/projects/tinyspline
   - if [%TEST_SETUP_PY%]==[1] (
       python --version &&
       python setup.py install )
